@@ -18,6 +18,7 @@ public class CoffeeApiController {
 
     private final CoffeeRepository coffeeRepository;
 
+
     public CoffeeApiController(CoffeeRepository coffeeRepository) {
         this.coffeeRepository = coffeeRepository;
     }
