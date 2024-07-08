@@ -1,7 +1,9 @@
 package com.cashwu.javaspringbootcoffee.scheduling;
 
 import com.cashwu.javaspringbootcoffee.model.Albums;
+import com.cashwu.javaspringbootcoffee.model.Photo;
 import com.cashwu.javaspringbootcoffee.repository.AlbumsRepository;
+import com.cashwu.javaspringbootcoffee.repository.PhotoRepository;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisOperations;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -19,10 +21,12 @@ public class HttpDataPoller {
 
 //    private final RedisOperations<String, Albums> redisOperations;
     private final AlbumsRepository albumsRepository;
-    private WebClient webClient = WebClient.create("https://jsonplaceholder.typicode.com/albums/3");
+    private final PhotoRepository photoRepository;
+    private WebClient webClient = WebClient.create("https://jsonplaceholder.typicode.com/photos/3");
 
-    public HttpDataPoller(AlbumsRepository albumsRepository) {
+    public HttpDataPoller(AlbumsRepository albumsRepository, PhotoRepository photoRepository) {
         this.albumsRepository = albumsRepository;
+        this.photoRepository = photoRepository;
     }
 
     @Scheduled(fixedDelay = 3000)
@@ -30,10 +34,15 @@ public class HttpDataPoller {
 
         System.out.println("--- start ---");
 
-        webClient.get().retrieve().bodyToFlux(Albums.class)
-                 .toStream().forEach(albumsRepository::save);
+//        webClient.get().retrieve().bodyToFlux(Albums.class)
+//                 .toStream().forEach(albumsRepository::save);
+//
+//        albumsRepository.findAll().forEach(System.out::println);
 
-        albumsRepository.findAll().forEach(System.out::println);
+        webClient.get().retrieve().bodyToFlux(Photo.class).toStream()
+                 .forEach(photoRepository::save);
+
+        photoRepository.findAll().forEach(System.out::println);
 
         System.out.println("--- end ---");
     }
