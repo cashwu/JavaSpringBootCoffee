@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<script>
+    const webSocket = new WebSocket("ws://" +window.location.host + "/ws");
+
+    webSocket.onopen = function () {
+    console.log("websocket connection is open")
+  }
+
+  webSocket.onmessage = function (message) {
+    console.log("received message : " + message.data);
+  }
+
+  webSocket.onclose = function () {
+    console.log("websocket connection is close");
+  }
+</script>
+
+</body>
+</html>
