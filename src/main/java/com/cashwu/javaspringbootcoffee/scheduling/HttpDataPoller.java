@@ -15,7 +15,7 @@ import org.springframework.web.reactive.function.client.WebClient;
  * @author cash.wu
  * @since 2024/07/08
  */
-@EnableScheduling
+//@EnableScheduling
 @Component
 public class HttpDataPoller {
 
